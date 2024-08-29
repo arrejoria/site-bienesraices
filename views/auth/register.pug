@@ -1,0 +1,33 @@
+extends ../layout/index
+
+block Contenido
+    .py-10
+        h1.text-center.text-4xl.font-extrabold Bienes
+            span.font-normal Raices
+        h2.text-center.text-2xl.font-extrabold= pagina
+
+        .mt-8.mx-auto.max-w-md
+            .bg-white.py-8.px-4.shadow
+                form(action="").space-y-5
+                    div.flex.gap-5
+                        div 
+                            label.block.text-sm.uppercase.text-gray-600.mb-2.font-bold(for="nombre") Tu Nombre 
+                            input#nombre.w-full.px-3.py-2.border.border-gray-300.placeholder-gray-400.rounded-md(placeholder="Ingresa tu nombre" type="text" name="name")
+                        div 
+                            label.block.text-sm.uppercase.text-gray-600.mb-2.font-bold(for="apellido") Tu Apellido 
+                            input#apellido.w-full.px-3.py-2.border.border-gray-300.placeholder-gray-400.rounded-md(placeholder="Ingresa tu apellido" type="text" name="lastname")
+                    div
+                        label.block.text-sm.uppercase.text-gray-600.mb-2.font-bold(for="email") Tu Email 
+                        input#email.w-full.px-3.py-2.border.border-gray-300.placeholder-gray-400.rounded-md(placeholder="Ingresa tu correo" type="email" name="email")
+                    div
+                        label.block.text-sm.uppercase.text-gray-600.mb-2.font-bold(for="password") Tu Password 
+                        input#password.w-full.px-3.py-2.border.border-gray-300.placeholder-gray-400.rounded-md(placeholder="Ingresar contraseña" type="password" name="password")
+                    div
+                        label.block.text-sm.uppercase.text-gray-600.mb-2.font-bold(for="repetir_password") Repetir Password 
+                        input#repetir_password.w-full.px-3.py-2.border.border-gray-300.placeholder-gray-400.rounded-md(placeholder="Volvé a ingresar tu contraseña" type="password" name="repetir_password")
+                    
+                    input(class="bg-sky-600 w-full rounded-md py-2 px-1 text-xl text-white uppercase cursor-pointer hover:bg-sky-700 hover:translate-y-1 transition-all" type="submit" value="Crear Cuenta")
+
+                    div.flex.justify-evenly.py-2.font-semibold
+                        a.text-gray-500.text-xs.text-center(href="/auth/login") ¿ Ya estás registrado ? <br> Iniciar sesión
+                        a.text-gray-500.text-xs(href="/auth/recuperar-password") Olvidé mi contraseña

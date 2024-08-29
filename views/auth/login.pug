@@ -1,0 +1,23 @@
+extends ../layout/index
+
+block Contenido
+    .py-10
+        h1.text-center.text-4xl.font-extrabold Bienes
+            span.font-normal Raices
+        h2.text-center.text-2xl.font-extrabold= pagina
+
+        .mt-8.mx-auto.max-w-md
+            .bg-white.py-8.px-4.shadow
+                form(action="").space-y-5
+                    div
+                        label.block.text-sm.uppercase.text-gray-600.mb-2.font-bold(for="email") Email de registro
+                        input#email.w-full.px-3.py-2.border.border-gray-300.placeholder-gray-400.rounded-md(placeholder="Ingresa tu correo" type="email" name="email")
+                    div
+                        label.block.text-sm.uppercase.text-gray-600.mb-2.font-bold(for="password") Tu contraseña 
+                        input#password.w-full.px-3.py-2.border.border-gray-300.placeholder-gray-400.rounded-md(placeholder="Ingresar contraseña" type="password" name="password")
+                   
+                    input(class="bg-sky-600 w-full rounded-md py-2 px-1 text-xl text-white uppercase cursor-pointer hover:bg-sky-700 hover:translate-y-1 transition-all" type="submit" value="Iniciar sesión")
+                    
+                    div.flex.justify-evenly.py-2.font-semibold
+                        a.text-gray-500.text-xs.text-center(href="/auth/registro") ¿ No estás registrado ?<br> Crear cuenta
+                        a.text-gray-500.text-xs(href="/auth/recuperar-password") Olvidé mi contraseña
