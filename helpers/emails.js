@@ -11,7 +11,7 @@ const registerEmail = async (datos) => {
   });
 
   const {name, email, token} = datos;
-  const tokenUrl = `${process.env.BACKEND_URL}:${process.env.BACKEND_PORT}/auth/recuperar-password/${token}`
+  const tokenUrl = `${process.env.BACKEND_URL}:${process.env.BACKEND_PORT}/auth/confirmacion/${token}`
 
   await transport.sendMail({
     from: 'Bienes Raices',
@@ -42,7 +42,7 @@ const passwordLostEmail = async (datos) => {
   });
 
   const {name, email, token} = datos;
-  const tokenUrl = `${process.env.BACKEND_URL}:${process.env.BACKEND_PORT}/auth/confirmacion/${token}`
+  const tokenUrl = `${process.env.BACKEND_URL}:${process.env.BACKEND_PORT}/auth/recuperar-password/${token}`
 
   await transport.sendMail({
     from: 'Bienes Raices',
@@ -52,7 +52,7 @@ const passwordLostEmail = async (datos) => {
     html: `
     <p>Hola ${name}, más abajo encontrarás el enlace para reestablecer tu cuenta.</p>
 
-    <p>Ingresando al siguiente enlace podrás reestablecer el password de tu cuenta en nuestro sitio: <a href="${tokenUrl}">Confirmar Cuenta</a></p>
+    <p>Ingresando al siguiente enlace podrás reestablecer el password de tu cuenta en nuestro sitio: <a href="${tokenUrl}">Restablecer Password</a></p>
 
     <p>Si no solicitaste reestablecer el password puedes ignorar este mensaje.</p>
     `

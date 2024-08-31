@@ -1,16 +1,59 @@
 import { check, validationResult } from 'express-validator';
 import { where, Op } from 'sequelize';
+import bcrypt from 'bcrypt'
 import User from '../models/User.js';
 import { generateId } from '../helpers/tokens.js';
 import { registerEmail, passwordLostEmail } from '../helpers/emails.js';
+import { render } from 'pug';
 
 // Funcionalidades para el usuario
 const loginForm = (req, res) => {
     res.render('auth/login', {
         pageTitle: 'Inicia Sesión',
-        loginUrl: 'auth/login'
+        loginUrl: 'auth/login',
+        nonce: req.csrfToken()
     });
 }
+
+const authenticateUser = async (req, res) => {
+
+    const renderOpts = {nonce: req.csrfToken()}
+
+    await check('email').isEmail().withMessage('El campo email es obligatorio').run(req)
+    await check('password').isLength({min: 6}).withMessage('El campo password es obligatorio').run(req)
+
+    const result = validationResult(req);
+    // Mostrar errores de validacion
+    if(!result.isEmpty()){
+        renderOpts.errors = result.array()
+        return res.render('auth/login', renderOpts)
+
+    }
+    const {email, password } = req.body;
+    // Verificar con email si el usuario se encuentra registrado
+    const user = await User.findOne({where:{email}});
+    // Mostrar Error
+    if(!user){
+        renderOpts.errors = [{msg: 'Usuario no registrado'}]
+        return res.render('auth/login', renderOpts)
+    }
+
+
+    // Verificar si el usuario confirmo su cuenta
+    if(!user.confirmed){
+        renderOpts.errors = [{msg: 'Usuario no confirmado'}]
+        return res.render('auth/login', renderOpts)
+    }
+    // Verificar password es igual
+    const verifyPassword = user.verifyPassword(password, user.password);
+    if(!verifyPassword){
+        renderOpts.errors = [{msg: 'El password ingresado no es correcto'}]
+        return res.render('auth/login', renderOpts)
+    }
+
+    return res.render('auth/login', renderOpts)
+}
+
 const registerForm = (req, res) => {
     
     res.render('auth/register', {
@@ -135,7 +178,10 @@ const recoverUserPassword = async (req, res) => {
     let errors
     // Si hay errores en la validación mostrar errores
     if(!valResults.isEmpty()){
-        errors = [{msg:'El Email ingresado no es valido'}]
+        return  res.render('auth/recuperar-password', {
+            errors: valResults.array(),
+            nonce: req.csrfToken()
+        });
     }
 
     // Buscar usuario en la base de datos
@@ -143,7 +189,7 @@ const recoverUserPassword = async (req, res) => {
     
     if(!user){
         return  res.render('auth/recuperar-password', {
-            pageTitle: 'Crear Cuenta',
+            pageTitle: 'Reestablecer Password',
             errors: valResults.array(),
             nonce: req.csrfToken()
         });
@@ -166,7 +212,7 @@ const recoverUserPassword = async (req, res) => {
     // Renderizar un mensaje
     res.render('templates/mensaje', {
         pageTitle: 'Recuperación de Password',
-        message: 'Recibias un correo con las instrucciones para reestablecer tu password.',
+        message: 'Verifica tus correos, te enviamos uno con las instrucciones para reestablecer tu password.',
     })
 
 }
@@ -188,9 +234,10 @@ const checkUserToken = async (req, res) =>{
     // Mostrar formulario para modificar el password
     res.render('auth/reset-password',{
         pageTitle: 'Reestablecer Password',
-        errors,
         nonce: req.csrfToken()
     })
+
+
 }
 
 const newPassword = async (req, res) => {
@@ -198,14 +245,40 @@ const newPassword = async (req, res) => {
     const { token } = req.params;
     const { password } = req.body;
 
-    console.log(token + ' --- ' + password)
+    await check('password').isLength({min: 6}).withMessage('El password debe contener un minimo de 6 caracteres.').run(req);
+    await check('repeat_password').equals(password).withMessage('Los passwords deben ser iguales.').run(req);
+    
+    const valResults = validationResult(req);
 
-    return;
+    let renderOpts = {
+        pageTitle: 'Password Reestablecido',
+        message: 'Ya puedes iniciar sesión con tu nuevo password en Bienes Raices',
+        nonce: req.csrfToken()
+    };
+
+    if(!valResults.isEmpty()){
+        renderOpts.errors = valResults.array();
+        renderOpts.pageTitle = 'Restablecer Password'
+        return res.render('auth/reset-password', renderOpts)
+    }
+
+    // Verificar si es el mismo usuario quien hace el reset
+    const user = await User.findOne({where:{token}});
+    const salt = await bcrypt.genSalt(10);
+
+    user.password = await bcrypt.hash(password, salt);
+    user.token = null
+    // renderOpts.pageTitle = 'Tu Password fue restablecido',
+
+    await user.save();
+
+    return res.render('auth/confirmar-cuenta', renderOpts)
 }
 
 
 export {
     loginForm,
+    authenticateUser,
     registerForm,
     registerUser,
     confirmUser,
