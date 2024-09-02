@@ -7,8 +7,8 @@ const router = express.Router();
 router.get('/login', loginForm)
 router.post('/login', authenticateUser)
 
-router.get('/registro', registerForm)
-router.post('/registro', registerUser)
+router.get('/register', registerForm)
+router.post('/register', registerUser)
 
 router.get('/confirmacion/:token', confirmUser)
 

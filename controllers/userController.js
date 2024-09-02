@@ -2,14 +2,14 @@ import { check, validationResult } from 'express-validator';
 import { where, Op } from 'sequelize';
 import bcrypt from 'bcrypt'
 import User from '../models/User.js';
-import { generateId } from '../helpers/tokens.js';
+import { generarJwt, generateId } from '../helpers/tokens.js';
 import { registerEmail, passwordLostEmail } from '../helpers/emails.js';
 import { render } from 'pug';
 
 // Funcionalidades para el usuario
 const loginForm = (req, res) => {
     res.render('auth/login', {
-        pageTitle: 'Inicia Sesión',
+        pageTitle: 'Iniciar Sesión',
         loginUrl: 'auth/login',
         nonce: req.csrfToken()
     });
@@ -51,7 +51,15 @@ const authenticateUser = async (req, res) => {
         return res.render('auth/login', renderOpts)
     }
 
-    return res.render('auth/login', renderOpts)
+    
+    const token = generarJwt({ id: user.id })
+    console.log('User login')
+
+    return res.cookie('_token', token, {
+        httpOnly: true
+    }).redirect('/mis-propiedades')
+
+
 }
 
 const registerForm = (req, res) => {
@@ -175,7 +183,6 @@ const recoverUserPassword = async (req, res) => {
     await check('email').isEmail().withMessage('Verifica que hayas ingresado el email correctamente').run(req)
 
     const valResults = validationResult(req);
-    let errors
     // Si hay errores en la validación mostrar errores
     if(!valResults.isEmpty()){
         return  res.render('auth/recuperar-password', {
@@ -190,7 +197,7 @@ const recoverUserPassword = async (req, res) => {
     if(!user){
         return  res.render('auth/recuperar-password', {
             pageTitle: 'Reestablecer Password',
-            errors: valResults.array(),
+            errors: [{msg: 'El email ingresado no se encuentra registrado'}],
             nonce: req.csrfToken()
         });
     }

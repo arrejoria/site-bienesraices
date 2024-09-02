@@ -3,11 +3,11 @@ import dotenv from 'dotenv'
 dotenv.config({path: '.env'})
 
 
-const { DB_NAME, BD_USER, DB_PASS, DB_HOST } = process.env;
+const { DB_NAME, BD_USER, DB_PASS, DB_HOST, DB_PORT } = process.env;
 
-const db = new Sequelize('bienesraices_database', BD_USER, DB_PASS, {
+const db = new Sequelize('bienesraices_database', 'root', DB_PASS, {
     host: DB_HOST,
-    port: 3307,
+    port: DB_PORT,
     dialect: 'mysql',
     define: {
         timestamps: true

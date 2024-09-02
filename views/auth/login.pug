@@ -2,9 +2,9 @@ extends ../layout/index
 
 block Contenido
     .py-10
-        h1.text-center.text-4xl.font-extrabold Bienes
+        h1.text-center.text-4xl.font-extrabold.text-zinc-400 Bienes
             span.font-normal Raices
-        h2.text-center.text-2xl.font-extrabold.mt-10= pageTitle
+        h2.text-center.text-2xl.font-extrabold.mt-4= pageTitle
 
         if errors
             div(class="max-w-md mx-auto my-10")
@@ -12,7 +12,7 @@ block Contenido
                     each error in errors 
                         li.text-slate-500= error.msg
 
-        .mt-8.mx-auto.max-w-md
+        .mt-4.mx-auto.max-w-md
             .bg-white.py-8.px-4.shadow
                 form(action="" method="POST" noValidate).space-y-5
                     input(type="hidden", name="_csrf" value=nonce)

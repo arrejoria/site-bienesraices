@@ -11,7 +11,7 @@ const registerEmail = async (datos) => {
   });
 
   const {name, email, token} = datos;
-  const tokenUrl = `${process.env.BACKEND_URL}:${process.env.BACKEND_PORT}/auth/confirmacion/${token}`
+  const tokenUrl = `${process.env.BACKEND_URL}:${process.env.BACKEND_PORT ?? 3000}/auth/confirmacion/${token}`
 
   await transport.sendMail({
     from: 'Bienes Raices',
@@ -21,7 +21,7 @@ const registerEmail = async (datos) => {
     html: `
     <p>Hola ${name}, tu cuenta fue creada con exito!</p>
 
-    <p>Ingresa al siguiente enlace para confirmar tu nueva cuenta en nuestro sitio: <a href="${tokenUrl}">Restablecer Password</a></p>
+    <p>Ingresa al siguiente enlace para confirmar tu nueva cuenta en nuestro sitio: <a href="${tokenUrl}">confirmar cuenta</a></p>
 
     <p>Si no fuiste vos quien creo esta cuenta puedes ignorar este mensaje.</p>
     `

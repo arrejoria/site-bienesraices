@@ -2,6 +2,7 @@ import express from 'express' // detalle importante, las dependencias o archivos
 import csrf from 'csurf'
 import cookieParser from 'cookie-parser'
 import userRoutes from './routes/userRoutes.js' // Los archivos que se crean en la app si lo requieren al importarse
+import propertiesRoutes from './routes/propertiesRoutes.js' // Los archivos que se crean en la app si lo requieren al importarse
 import db from './config/db.js'
 import { cookie } from 'express-validator'
 
@@ -36,6 +37,7 @@ app.use( express.static('public'))
 
 // Routing (middleware)
 app.use('/auth', userRoutes)
+app.use('/', propertiesRoutes)
 
 
 // Definir un puerto y arrancar el proyecto
