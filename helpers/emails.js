@@ -14,10 +14,10 @@ const registerEmail = async (datos) => {
   const tokenUrl = `${process.env.BACKEND_URL}:${process.env.BACKEND_PORT ?? 3000}/auth/confirmacion/${token}`
 
   await transport.sendMail({
-    from: 'Bienes Raices',
+    from: 'Urban Prop',
     to: email,
-    subject: 'Confirma tu nueva cuenta en Bienes Raices',
-    text: 'Confirma tu cuenta en Bienes Raices',
+    subject: 'Confirma tu nueva cuenta en Urban Prop',
+    text: 'Confirma tu cuenta en Urban Prop',
     html: `
     <p>Hola ${name}, tu cuenta fue creada con exito!</p>
 
@@ -45,14 +45,14 @@ const passwordLostEmail = async (datos) => {
   const tokenUrl = `${process.env.BACKEND_URL}:${process.env.BACKEND_PORT}/auth/recuperar-password/${token}`
 
   await transport.sendMail({
-    from: 'Bienes Raices',
+    from: 'Urban Prop',
     to: email,
-    subject: 'Restablecer Password de tu cuenta en Bienes Raices',
-    text: 'Restablecer Password de tu cuenta en Bienes Raices',
+    subject: 'Restablecer Password de tu cuenta en Urban Prop',
+    text: 'Restablecer Password de tu cuenta en Urban Prop',
     html: `
     <p>Hola ${name}, más abajo encontrarás el enlace para reestablecer tu cuenta.</p>
 
-    <p>Ingresando al siguiente enlace podrás reestablecer el password de tu cuenta en nuestro sitio: <a href="${tokenUrl}">Restablecer Password</a></p>
+    <p>Ingresando al siguiente enlace podrás reestablecer el password de tu cuenta en nuestro sitio: <a href="${tokenUrl}">Restablecer password</a></p>
 
     <p>Si no solicitaste reestablecer el password puedes ignorar este mensaje.</p>
     `

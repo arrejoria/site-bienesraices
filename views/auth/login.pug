@@ -2,8 +2,8 @@ extends ../layout/index
 
 block Contenido
     .py-10
-        h1.text-center.text-4xl.font-extrabold.text-zinc-400 Bienes
-            span.font-normal Raices
+        h1.text-center.text-4xl.font-extrabold.text-zinc-400 Urban
+            span.font-normal Prop
         h2.text-center.text-2xl.font-extrabold.mt-4= pageTitle
 
         if errors
@@ -26,5 +26,5 @@ block Contenido
                     input(class="bg-sky-600 w-full rounded-md py-2 px-1 text-xl text-white uppercase cursor-pointer hover:bg-sky-700 hover:translate-y-1 transition-all" type="submit" value="Iniciar sesión")
                     
                     div.flex.justify-evenly.py-2.font-semibold
-                        a.text-gray-500.text-xs.text-center(href="/auth/registro") ¿ No estás registrado ?<br> Crear cuenta
+                        a.text-gray-500.text-xs.text-center(href="/auth/register") ¿ No estás registrado ?<br> Crear cuenta
                         a.text-gray-500.text-xs(href="/auth/recuperar-password") Olvidé mi contraseña

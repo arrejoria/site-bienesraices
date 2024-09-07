@@ -171,7 +171,7 @@ const confirmUser =  async (req, res, next) => {
 
 const passwordLost = (req, res) => {
     res.render('auth/recuperar-password', {
-        pageTitle: 'Recupera tu acceso a Bienes Raices',
+        pageTitle: 'Recupera tu acceso a Urban Prop',
         nonce: req.csrfToken(),
     });
 }
@@ -259,7 +259,7 @@ const newPassword = async (req, res) => {
 
     let renderOpts = {
         pageTitle: 'Password Reestablecido',
-        message: 'Ya puedes iniciar sesión con tu nuevo password en Bienes Raices',
+        message: 'Ya puedes iniciar sesión con tu nuevo password en Urban Prop',
         nonce: req.csrfToken()
     };
 

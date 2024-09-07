@@ -31,7 +31,6 @@ app.use( csrf( { cookie: true } ))
 app.set('view engine', 'pug')
 app.set('views', './views')
 
-
 // Public Folder
 app.use( express.static('public'))
 
@@ -42,7 +41,7 @@ app.use('/', propertiesRoutes)
 
 // Definir un puerto y arrancar el proyecto
 const port = process.env.BACKEND_PORT || 3000;
-
+const backendUrl = process.env.BACKEND_URL;
 app.listen(port, () => {
-    console.log(`E; servidor esta funcionando en el puerto ${port}`);
+    console.log(`El servidor esta funcionando en el puerto ${backendUrl}:${port}`);
 })

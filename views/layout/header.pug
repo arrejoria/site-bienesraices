@@ -3,14 +3,16 @@ header.bg-indigo-600.p-4
     nav(class=" sm:flex-row sm:justify-around").flex.flex-col.justify-center.items-center.text-white.mx-auto
         div.flex.items-center.gap-3
             a(href="/") 
-                h1.text-center.text-xl.font-extrabold Bienes
-                    span.font-normal Raices
+                h1.text-center.text-xl.font-extrabold Urban
+                    span.font-normal Prop
 
-        ul(class="hidden sm:flex").nav.navbar-nav.font-semibold.gap-3
+        ul(class="hidden sm:flex space-x-3 divide-x ").nav.navbar-nav.font-semibold
             li(class=(title == 'Inicio') ? 'active' : null)
-                a(href='/') Home
-            li(class=(title == 'About') ? 'active' : null)
-                a(href='/about') About
+                a(href='/') Inicio
+            li(class=(title == 'About') ? 'active' : null).px-2
+                a(href='/propieades') Propiedades
+            li(class=(title == 'About') ? 'active' : null).px-2
+                a(href='/about') Nosotros
         ul(class="").nav.navbar-nav.navbar-right.flex.gap-3.font-semibold
                 li(class="sm:hidden") 
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">

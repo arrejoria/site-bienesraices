@@ -4,9 +4,12 @@ html(lang='en')
         meta(charset='utf-8')
         meta(http-equiv="X-UA-Compatible", content="IE=edge")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        title Bienes Rainces | #{pageTitle}
+        title Urban Rainces | #{pageTitle}
         link(rel="stylesheet", href="/css/app.css", attr)
+        block before_body
     body( class="min-h-screen bg-gray-50" )
         include header
         main( class="mx-auto container mt-10 px-2" )
             block Contenido
+
+        block scripts
