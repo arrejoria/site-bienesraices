@@ -3,27 +3,26 @@
 // Model Associations
 import User from './User.js';
 import Category from './Category.js';
-import { Property, PropertyLocations } from './Property.js';
+import { Property, PropertyLocation, PropertyPrice } from './Property.js';
 
 
-// Relation from Property to User
+// Relation of Category and User
+User.hasMany(Property, { foreignKey: 'userId', onDelete: 'CASCADE' });
+Property.belongsTo(User, { foreignKey: 'userId', onDelete: 'CASCADE' });
+ 
+// Relation of Property and PropertyLocation
+Property.belongsTo(PropertyLocation, { foreignKey: 'locationId', onDelete: 'CASCADE' });
 
-Property.belongsTo(User, {foreignKey: 'userId', as: 'owner', onDelete: 'CASCADE' })
-Property.belongsTo(Category, {foreignKey: 'categoryId', as: 'category', onDelete: 'CASCADE' })
+// Relation of Property and Category
+Property.belongsTo(Category, {foreignKey: 'categoryId', onDelete: 'CASCADE' });
 
-PropertyLocations.belongsTo(Property, {foreignKey: 'locationId', as: 'location', onDelete: 'CASCADE' })
-
-// Relation of Category to
-User.hasMany(Property, {foreignKey: 'userId', as: 'properties', onDelete: 'CASCADE' })
-
-
-
-
-
+// Relation of PropertyPrice to Property
+Property.belongsTo(PropertyPrice, {foreignKey: 'PriceId', onDelete: 'CASCADE' });
 
 export {
   Property,
-  PropertyLocations,
+  PropertyLocation,
+  PropertyPrice,
   User,
   Category
 }

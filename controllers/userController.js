@@ -52,12 +52,11 @@ const authenticateUser = async (req, res) => {
     }
 
     
-    const token = generarJwt({ id: user.id })
-    console.log('User login')
+    const token = generarJwt({ id: user.id , firstname: user.firstname})
 
     return res.cookie('_token', token, {
         httpOnly: true
-    }).redirect('/mis-propiedades')
+    }).redirect('/my-properties')
 
 
 }

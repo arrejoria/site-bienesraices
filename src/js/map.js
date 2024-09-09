@@ -1,8 +1,9 @@
 console.log("Map Scripts Initialized");
 
 (function () {
-  const lat = -34.6037,
-    lng = -58.3816,
+
+  const lat = document.querySelector('input[name="lat"]').value || -34.6037 ,
+    lng = document.querySelector('input[name="lng"]').value || -58.3816,
     map = L.map("map").setView([lat, lng], 12);
   let marker;
 

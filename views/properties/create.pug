@@ -41,12 +41,13 @@ block Contenido
                                 label(for="currency").block.text-sm.uppercase.text-gray-500.mb-3.font-bold Moneda
                                 select(name="currency" id="currency" class=`${fieldClasses} ${errors && errors.currency ? 'border-rose-500' : ''}` value= data ? currency : '').form-select
                                     option(class="") - $ -
-                                    option() asd
+                                    option(value="usd" selected=(data.currency === 'usd')) USD
+                                    option(value="ars" selected=(data.currency === 'ars')) ARS
 
                             div(class="md:w-1/2 ")
-                                label(for="price").block.text-sm.uppercase.text-gray-500.mb-3.font-bold Precio
-                                input(name="price" id="price" placeholder="ej. 300.000" class=`${fieldClasses} ${errors && errors.price ? 'border-rose-500' : ''}` value= data ? data.price : '').form-input
-                                //- select(name="price" id="price" class="form-multiselect mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50")
+                                label(for="amount").block.text-sm.uppercase.text-gray-500.mb-3.font-bold Precio
+                                input(name="amount" id="amount" placeholder="ej. 300.000" class=`${fieldClasses} ${errors && errors.amount ? 'border-rose-500' : ''}` value= data ? data.amount : '').form-input
+                                //- select(name="amount" id="amount" class="form-multiselect mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50")
                                 //- option(class="") - Seleccione -
 
                         div(class="md:w-1/2")
@@ -121,12 +122,14 @@ block Contenido
                     div(class="h-1")
                         p.street= data.street ? data.street : ''
                     
-                    input(type="hidden" name="street" id="street")
-                    input(type="hidden" name="lat" id="lat")
-                    input(type="hidden" name="lng" id="lng")
+                    input(type="hidden" name="street" id="street" value= data.street ? data.street : '')
+                    input(type="hidden" name="lat" id="lat" value= data.lat ? data.lat : '')
+                    input(type="hidden" name="lng" id="lng" value= data.lng ? data.lng : '')
+
+                input(class="w-full py-3 bg-sky-600 px-2 uppercase text-white cursor-pointer hover:bg-sky-700 text-xl" type="submit" value="Agregar imagen")
 
             div.pt-5
-                input(type="submit", value="Crear publicación").uppercase.text-xl.text-white.bg-sky-600.w-full.px-2.py-3.rounded.cursor-pointer
+                input(type="submit", value="Crear publicación" class="hover:bg-sky-700").uppercase.text-xl.text-white.bg-sky-600.w-full.px-2.py-3.rounded.cursor-pointer
 
 
 

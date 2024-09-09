@@ -1,19 +1,20 @@
 import express from 'express'
 import { body } from 'express-validator'  
 import {admin, createProperty, save} from '../controllers/propertiesController.js'
+import secureRoute from '../middleware/secureRoute.js';
 
 const router = express.Router();
 
-router.get('/my-properties', admin)
-router.get('/property/create', createProperty)
+router.get('/my-properties', secureRoute, admin)
+router.get('/property/create',secureRoute, createProperty)
 
 router.post('/property/create', 
     body('prop_title').notEmpty().withMessage('El titulo del anuncio es obligatorio'), 
     body('description')
         .isLength({max:3000}).withMessage('La descripción tiene un max permitido de 3.000 caracteres'),
     body('currency')
-        .isNumeric().withMessage('Obligatorio'),
-    body('price')
+        .notEmpty().withMessage('Obligatorio'),
+    body('amount')
         .notEmpty().withMessage('Obligatorio'),
     body('category')
         .isNumeric().withMessage('Obligatorio'),

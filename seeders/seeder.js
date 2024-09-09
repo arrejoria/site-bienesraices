@@ -1,9 +1,11 @@
 import { exit } from 'node:process'
+import { Sequelize } from 'sequelize'
+import { Category, Property, PropertyLocation, PropertyPrice, User } from '../models/index.js'
 import categories from './categories.js'
 import prices from './prices.js'
-import { Category } from '../models/index.js'
+import users from './users.js'
+import locations from './locations.js'
 import db from '../config/db.js'
-import { truncate } from 'node:fs'
 
 const importData = async () => {
         try {
@@ -15,7 +17,12 @@ const importData = async () => {
         await db.sync()
 
         // Insert data
-        await Category.bulkCreate(categories)
+        await Promise.all([
+            PropertyPrice.bulkCreate(prices),
+            PropertyLocation.bulkCreate(locations),
+            Category.bulkCreate(categories),
+            User.bulkCreate(users)
+        ])
         console.log('Datos importados correctamente');
         
         exit()
@@ -30,10 +37,23 @@ if(process.argv[2] === '-i'){
 }
 
 const deleteData = async () => {
+        
+    // Primero elimina la tabla properties
+    await Property.destroy({ where: {} });
     try {
+
+        db.authenticate()
+
         await Promise.all([
-            Category.destroy({where:{}, truncate: true}),
+            PropertyLocation.destroy({where:{}}),
+            PropertyPrice.destroy({where:{}}),
+            Category.destroy({where:{}}),
         ])
+
+        await db.sync({force: true})
+
+        console.log('Datos eliminados correctamente');
+        exit()
     } catch (error) {
         console.log(error);
         exit(1)

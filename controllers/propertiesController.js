@@ -1,6 +1,7 @@
 import { validationResult } from 'express-validator'
-import Category from '../models/Category.js'
-
+import {User, Property, PropertyPrice, Category, PropertyLocation} from '../models/index.js'
+import { Sequelize } from 'sequelize'
+import db from '../config/db.js'
 
 const admin = (req, res) => {
 
@@ -34,6 +35,7 @@ const save = async (req,res) => {
 
     // Retrieve Category table data
         const categories = await Category.findAll();
+
         return res.render('properties/create', {
             pageTitle: 'Crear propiedad',
             categories,
@@ -43,11 +45,62 @@ const save = async (req,res) => {
         })
     }
 
+    // Destructuring req.body and req.user
+    const { prop_title, description, rooms, bathrooms, bedrooms, garage, elevator, terrace, images, category: categoryId, currency, amount, street, lat, lng } = req.body;
+    // const { id } = req.user
+    const t = await db.transaction(); // iniciar transaction
+    
+    console.log(req.user);
+    
+    try {
+    // Handle currency and amount Prices data
+    const [price] = await PropertyPrice.findOrCreate({
+        where: { currency, amount },
+        defaults: { currency, amount },
+        transaction: t
+    });
+    // Handle location property data
+    const [location] = await PropertyLocation.findOrCreate({
+        where: { street, lat, lng },
+        defaults: { street, lat, lng },
+        transaction: t
+    });
 
-    return res.render('properties/create', {
+    //Handle Optional fields data
+    const isElevator = elevator === '1'
+    const isTerrace = terrace === '1'
+    const isGarage = garage === '1'
+
+    const propertyCreate = await Property.create({
+        prop_title,
+        description,
+        rooms,
+        bathrooms,
+        bedrooms,
+        elevator: isElevator, // Asignar null si no se seleccionó
+        terrace: isTerrace,
+        garage: isGarage,
+        priceId: price.id, // Asocia el id del precio creado o encontrado
+        userId: 1,
+        locationId: location.id,
+        categoryId,
+        image: ''
+    }, { transaction: t})
+
+    await t.commit()
+    console.log('transaction commited');
+
+    res.render('properties/create', {
         pageTitle: 'Crear propiedad',
         nonce: req.csrfToken()
     })
+    
+    } catch (error) {
+        console.error('Error: ' + error);
+
+        await t.rollback();
+        res.status(500).json({ message: 'Error creating property' });
+    }
 }
 
 export {

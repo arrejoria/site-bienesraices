@@ -31,15 +31,12 @@ const Property = db.define('properties', {
     },
     elevator: {
         type: DataTypes.BOOLEAN,
-        allowNull: false
     },
     terrace: {
         type: DataTypes.BOOLEAN,
-        allowNull: false
     },
     garage: {
         type: DataTypes.BOOLEAN,
-        allowNull: false
     },
     image: {
         type: DataTypes.STRING,
@@ -52,13 +49,7 @@ const Property = db.define('properties', {
     }
 })
 
-const PropertyLocations = db.define('properties_locations', {
-    id: {
-        type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4,
-        allowNull: false,
-        primaryKey: true
-    },
+const PropertyLocation = db.define('prop_locations', {
     street: {
         type: DataTypes.STRING(60),
         allowNull: false
@@ -73,7 +64,19 @@ const PropertyLocations = db.define('properties_locations', {
     },
 })
 
+const PropertyPrice = db.define('prop_prices', {
+    currency: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    amount: {
+        type: DataTypes.INTEGER.UNSIGNED,
+        allowNull: true
+    }
+})
+
 export {
     Property,
-    PropertyLocations
+    PropertyLocation,
+    PropertyPrice
 };
