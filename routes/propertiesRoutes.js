@@ -1,6 +1,6 @@
 import express from 'express'
 import { body } from 'express-validator'  
-import {admin, createProperty, save} from '../controllers/propertiesController.js'
+import {admin, createProperty, save, addImages, saveImages} from '../controllers/propertiesController.js'
 import secureRoute from '../middleware/secureRoute.js';
 
 const router = express.Router();
@@ -26,9 +26,12 @@ router.post('/property/create',
         .isNumeric().withMessage('Obligatorio'),
     body('lat')
         .notEmpty().withMessage('Necesitas señalar la ubicación del inmueble'),
+    secureRoute,
     save
 )
 
+router.get('/properties/add-images/:propId', addImages)
+router.post('/properties/add-images/:propId', saveImages)
 
 
 export default router;

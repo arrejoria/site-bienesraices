@@ -4,9 +4,13 @@ import dotenv from "dotenv";
 dotenv.config({path: '.env'});
 
 // Ya ligado a variables de entorno
-const db = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
-    host: process.env.BD_HOST,
-    port: process.env.BD_PORT,
+const db = new Sequelize(
+    process.env.DB_NAME,
+    process.env.DB_USER,
+    process.env.DB_PASS,
+    {
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
     dialect: 'mysql',
     // define con timestamps para que cree dos columnas a mayores, una con la creación del usuario y otra cuando fue actualizado
     define: {
@@ -25,5 +29,14 @@ const db = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.D
     // Esto es algo que existía, ya está como obsoleto, por eso lo marcamos como false.
     // operatorsAliases: false Lo quitamos porque salía advertencia de node por deprecado
 });
+
+(async () => {
+    try {
+      await db.authenticate();
+      console.log('Conexión a la base de datos establecida con éxito.');
+    } catch (error) {
+      console.error('No se pudo conectar a la base de datos:', error);
+    }
+  })();
 
 export default db;

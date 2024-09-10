@@ -71,7 +71,7 @@ const PropertyPrice = db.define('prop_prices', {
     },
     amount: {
         type: DataTypes.INTEGER.UNSIGNED,
-        allowNull: true
+        allowNull: false
     }
 })
 

@@ -17,7 +17,7 @@ Property.belongsTo(PropertyLocation, { foreignKey: 'locationId', onDelete: 'CASC
 Property.belongsTo(Category, {foreignKey: 'categoryId', onDelete: 'CASCADE' });
 
 // Relation of PropertyPrice to Property
-Property.belongsTo(PropertyPrice, {foreignKey: 'PriceId', onDelete: 'CASCADE' });
+Property.belongsTo(PropertyPrice, {foreignKey: 'priceId', onDelete: 'CASCADE' });
 
 export {
   Property,

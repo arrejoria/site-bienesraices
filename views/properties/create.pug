@@ -1,4 +1,4 @@
-extends ../layout/index
+extends ../layout/admin
 
 block before_body 
     link(rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css")
@@ -13,7 +13,7 @@ block Contenido
     .container.max-w-4xl.bg-white.shadow.mx-auto(class="py-5 px-2 sm:px-10")
         - var fieldClasses = "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
         if errors
-            p.py-4.border.border-red-500.rounded.block.my-4.text-center.font-bold.text-red-500 Verifica que los campos señalados estén completos o sean correctos
+            p.py-4.border.border-red-500.rounded.block.my-4.text-center.font-bold.text-red-500=( errors.length > 0 ? errors[0].catchMsg : 'Verifica que los campos señalados estén completos o sean correctos')
 
         form(class=" border border-zinc-300 space-y-8 p-5 md:p-10" method="POST" noValidate)
             input(type="hidden" name="_csrf" value=nonce)
@@ -39,7 +39,7 @@ block Contenido
                         div(class="md:w-1/2 flex gap-3")
                             div(class="md:w-1/4 w-1/3")
                                 label(for="currency").block.text-sm.uppercase.text-gray-500.mb-3.font-bold Moneda
-                                select(name="currency" id="currency" class=`${fieldClasses} ${errors && errors.currency ? 'border-rose-500' : ''}` value= data ? currency : '').form-select
+                                select(name="currency" id="currency" class=`${fieldClasses} ${errors && errors.currency ? 'border-rose-500' : ''}`).form-select
                                     option(class="") - $ -
                                     option(value="usd" selected=(data.currency === 'usd')) USD
                                     option(value="ars" selected=(data.currency === 'ars')) ARS
@@ -47,8 +47,6 @@ block Contenido
                             div(class="md:w-1/2 ")
                                 label(for="amount").block.text-sm.uppercase.text-gray-500.mb-3.font-bold Precio
                                 input(name="amount" id="amount" placeholder="ej. 300.000" class=`${fieldClasses} ${errors && errors.amount ? 'border-rose-500' : ''}` value= data ? data.amount : '').form-input
-                                //- select(name="amount" id="amount" class="form-multiselect mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50")
-                                //- option(class="") - Seleccione -
 
                         div(class="md:w-1/2")
                             label(for="category").block.text-sm.uppercase.text-gray-500.mb-3.font-bold Categoria
@@ -127,10 +125,6 @@ block Contenido
                     input(type="hidden" name="lng" id="lng" value= data.lng ? data.lng : '')
 
                 input(class="w-full py-3 bg-sky-600 px-2 uppercase text-white cursor-pointer hover:bg-sky-700 text-xl" type="submit" value="Agregar imagen")
-
-            div.pt-5
-                input(type="submit", value="Crear publicación" class="hover:bg-sky-700").uppercase.text-xl.text-white.bg-sky-600.w-full.px-2.py-3.rounded.cursor-pointer
-
 
 
 block scripts 
