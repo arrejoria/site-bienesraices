@@ -1,7 +1,10 @@
 extends ../layout/admin
 
+block styles 
+    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+
 block before_body 
-    link(rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css")
+    meta(name="csrf-token" content= csrfToken)
 
 block Contenido
     .py-10
@@ -10,11 +13,10 @@ block Contenido
         h2.text-center.text-2xl.font-extrabold.mt-10= pageTitle
 
     .container.max-w-4xl.bg-white.shadow.mx-auto(class="py-5 px-2 sm:px-10")
+        form(class="dropzone border-dashed border-2 rounded w-full min:h-96 h-auto flex-col justify-center items-center text-slate-300 text-3xl" method="POST" action=`/property/add-images/${property.id}`  id="propImages")
 
-        form(class="space-y-8 p-5 md:p-10" method="POST" noValidate)
-            input(type="hidden" name="_csrf" value=nonce)
-
-            input(class="w-full py-3 bg-sky-600 px-2 uppercase text-white cursor-pointer hover:bg-sky-700 text-xl" type="submit" value="Agregar imagen")
+        button( id="dzSubmit" class="w-full mt-5 py-3 bg-sky-600 px-2 rounded uppercase text-white cursor-pointer hover:bg-sky-700 text-xl" type="button") Crear Publicación
 
 
 block scripts 
+    script(src="/js/addImages.js") 

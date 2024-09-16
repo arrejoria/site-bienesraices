@@ -38,7 +38,6 @@ const authenticateUser = async (req, res) => {
         return res.render('auth/login', renderOpts)
     }
 
-
     // Verificar si el usuario confirmo su cuenta
     if(!user.confirmed){
         renderOpts.errors = [{msg: 'Usuario no confirmado'}]

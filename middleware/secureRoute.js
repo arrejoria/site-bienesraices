@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import { User } from "../models/index.js";
 
 const secureRoute = async (req, res, next) => {
-  console.log("From middleware");
+  console.log("Route Secured ############");
   const loginUrl = "/auth/login";
 
   // Verify token in cookies

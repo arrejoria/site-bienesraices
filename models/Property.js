@@ -38,10 +38,6 @@ const Property = db.define('properties', {
     garage: {
         type: DataTypes.BOOLEAN,
     },
-    image: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
     published: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
@@ -75,8 +71,17 @@ const PropertyPrice = db.define('prop_prices', {
     }
 })
 
+const PropertyImages = db.define('prop_images', {
+    
+    name: {
+        type: DataTypes.STRING,
+        allowNull: false
+    }
+})
+
 export {
     Property,
     PropertyLocation,
-    PropertyPrice
+    PropertyPrice,
+    PropertyImages
 };
