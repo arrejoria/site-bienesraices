@@ -26,3 +26,6 @@ build/
 *.tmp
 *.bak
 *.swp
+
+# Ignorar archivos de la carpeta uploads
+public/uploads/

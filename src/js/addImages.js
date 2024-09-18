@@ -20,17 +20,19 @@ Dropzone.options.propImages = {
   init: function () {
     const dropzone = this;
     const dzSubmit = document.querySelector("#dzSubmit");
-    
+
     dzSubmit.addEventListener("click", function () {
       dropzone.processQueue();
       console.log("dropzone queue processed");
     });
 
     dropzone.on("queuecomplete", function () {
-        console.log('process queue complete');
-        console.log(dropzone.getActiveFiles().length);
+      console.log("process queue complete");
+      console.log(dropzone.getActiveFiles().length);
       if (dropzone.getActiveFiles().length == 0) {
-        window.location.pathname = '/my-properties'
+        setTimeout(function () {
+          window.location.pathname = "/my-properties";
+        }, 2000);
       }
     });
   },

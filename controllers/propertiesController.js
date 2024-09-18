@@ -188,11 +188,7 @@ const saveImages = async (req, res, next) => {
     propId: property.id,
   });
 
-  console.log("Subiendo imagen #################");
-  next()
-
-  res.redirect('/my-properties');
-
+  return res.status(200).json({ redirectUrl: "/my-properties" });
 };
 
 export { admin, createProperty, save, addImages, saveImages };
